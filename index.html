@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOOKUP-NIGHT | Find Your Soulmate in Naija</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'naija-purple': '#6B21A8',
+                        'naija-pink': '#EC4899',
+                        'naija-dark': '#0F0F0F',
+                        'naija-charcoal': '#1A1A2E',
+                        'naija-glass': 'rgba(255, 255, 255, 0.1)',
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'slide-up': 'slideUp 0.5s ease-out',
+                        'match-pop': 'matchPop 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55)',
+                        'float': 'float 3s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        slideUp: {
+                            '0%': { transform: 'translateY(100%)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                        matchPop: {
+                            '0%': { transform: 'scale(0) rotate(-10deg)', opacity: '0' },
+                            '50%': { transform: 'scale(1.1) rotate(5deg)' },
+                            '100%': { transform: 'scale(1) rotate(0deg)', opacity: '1' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0F0F0F 0%, #1A1A2E 50%, #2D1B4E 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .glass-strong {
+            background: rgba(26, 26, 46, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(236, 72, 153, 0.2);
+        }
+
+        .neon-text {
+            text-shadow: 0 0 10px rgba(236, 72, 153, 0.5), 0 0 20px rgba(236, 72, 153, 0.3);
+        }
+
+        .card-shadow {
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(236, 72, 153, 0.1);
+        }
+
+        .swipe-card {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .swipe-card.swiping-left {
+            transform: translateX(-100%) rotate(-30deg);
+            opacity: 0;
+        }
+
+        .swipe-card.swiping-right {
+            transform: translateX(100%) rotate(30deg);
+            opacity: 0;
+        }
+
+        .gradient-border {
+            position: relative;
+            background: linear-gradient(135deg, #6B21A8, #EC4899);
+            padding: 2px;
+            border-radius: 1rem;
+        }
+
+        .gradient-border-inner {
+            background: #1A1A2E;
+            border-radius: calc(1rem - 2px);
+            height: 100%;
+        }
+
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .typing-dot {
+            animation: typing 1.4s infinite ease-in-out both;
+        }
+
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes typing {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1); }
+        }
+
+        .heart-beat {
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .shimmer {
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+    </style>
+<base target="_blank">
+</head>
+<body class="text-white">
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed top-0 w-full z-50 glass-strong transition-all duration-300 hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-fire text-naija-pink text-2xl heart-beat"></i>
+                    <span class="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent neon-text">
+                        HOOKUP-NIGHT
+                    </span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button onclick="showPage('discovery')" class="p-2 hover:bg-white/10 rounded-full transition">
+                        <i class="fas fa-compass text-xl"></i>
+                    </button>
+                    <button onclick="showPage('chat')" class="p-2 hover:bg-white/10 rounded-full transition relative">
+                        <i class="fas fa-comment-dots text-xl"></i>
+                        <span class="absolute top-0 right-0 w-3 h-3 bg-naija-pink rounded-full animate-pulse"></span>
+                    </button>
+                    <button onclick="showPage('profile')" class="w-10 h-10 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center">
+                        <i class="fas fa-user text-sm"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Landing Page -->
+    <section id="landing" class="min-h-screen flex flex-col">
+        <!-- Hero -->
+        <div class="flex-1 flex flex-col justify-center items-center px-4 pt-20 pb-10 relative overflow-hidden">
+            <!-- Background Elements -->
+            <div class="absolute top-20 left-10 w-32 h-32 bg-purple-500/20 rounded-full blur-3xl animate-float"></div>
+            <div class="absolute bottom-20 right-10 w-40 h-40 bg-pink-500/20 rounded-full blur-3xl animate-float" style="animation-delay: 1s;"></div>
+
+            <div class="text-center z-10 max-w-3xl mx-auto">
+                <div class="inline-flex items-center space-x-2 glass px-4 py-2 rounded-full mb-6">
+                    <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                    <span class="text-sm text-gray-300">12,847 singles online in Lagos right now</span>
+                </div>
+
+                <h1 class="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+                    Find Your <span class="bg-gradient-to-r from-purple-400 via-pink-500 to-purple-400 bg-clip-text text-transparent">Soulmate</span><br>
+                    <span class="text-3xl md:text-5xl text-gray-300">in Naija</span>
+                </h1>
+
+                <p class="text-xl text-gray-400 mb-8 max-w-2xl mx-auto">
+                    The #1 dating platform for Nigerians. Connect with verified singles in Lagos, Abuja, PH, and across all 36 states.
+                </p>
+
+                <button onclick="showPage('signup')" class="group relative px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full text-xl font-semibold overflow-hidden transition-transform hover:scale-105 shadow-2xl shadow-purple-500/25">
+                    <span class="relative z-10 flex items-center space-x-2">
+                        <span>Start Finding Love</span>
+                        <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                    </span>
+                    <div class="absolute inset-0 bg-gradient-to-r from-pink-600 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                </button>
+
+                <p class="mt-4 text-sm text-gray-500">Trusted by 500,000+ Naija singles</p>
+            </div>
+
+            <!-- Scrolling Avatars -->
+            <div class="w-full mt-12 overflow-hidden">
+                <div class="flex space-x-4 animate-marquee whitespace-nowrap">
+                    <div class="flex space-x-4" id="avatar-scroll">
+                        <!-- Avatars injected by JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features -->
+        <div class="glass-strong py-12 px-4">
+            <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="text-center p-6">
+                    <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-purple-500/20 flex items-center justify-center">
+                        <i class="fas fa-shield-alt text-2xl text-purple-400"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">Verified Profiles</h3>
+                    <p class="text-gray-400 text-sm">Every profile is verified to ensure you're meeting real Naija singles</p>
+                </div>
+                <div class="text-center p-6">
+                    <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-pink-500/20 flex items-center justify-center">
+                        <i class="fas fa-map-marker-alt text-2xl text-pink-400"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">Local Matches</h3>
+                    <p class="text-gray-400 text-sm">Find singles in your city - Lagos, Abuja, Port Harcourt & more</p>
+                </div>
+                <div class="text-center p-6">
+                    <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-purple-500/20 flex items-center justify-center">
+                        <i class="fas fa-heart text-2xl text-purple-400"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">Real Connections</h3>
+                    <p class="text-gray-400 text-sm">Meaningful matches based on interests and compatibility</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sign Up Page -->
+    <section id="signup" class="min-h-screen flex items-center justify-center px-4 py-20 hidden">
+        <div class="w-full max-w-md">
+            <div class="glass-strong rounded-2xl p-8 card-shadow">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold mb-2">Join HOOKUP-NIGHT</h2>
+                    <p class="text-gray-400">Create your account to start matching</p>
+                </div>
+
+                <!-- Progress Steps -->
+                <div class="flex justify-between mb-8">
+                    <div class="flex-1 flex items-center">
+                        <div id="step1-indicator" class="w-8 h-8 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center text-sm font-bold">1</div>
+                        <div class="flex-1 h-1 bg-gray-700 mx-2">
+                            <div id="progress-bar" class="h-full bg-gradient-to-r from-purple-500 to-pink-500 transition-all duration-500" style="width: 0%"></div>
+                        </div>
+                        <div id="step2-indicator" class="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center text-sm font-bold transition-colors">2</div>
+                        <div class="flex-1 h-1 bg-gray-700 mx-2">
+                            <div id="progress-bar-2" class="h-full bg-gradient-to-r from-purple-500 to-pink-500 transition-all duration-500" style="width: 0%"></div>
+                        </div>
+                        <div id="step3-indicator" class="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center text-sm font-bold transition-colors">3</div>
+                    </div>
+                </div>
+
+                <!-- Step 1: Phone Number -->
+                <div id="step1" class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-medium mb-2 text-gray-300">Phone Number</label>
+                        <div class="relative">
+                            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-semibold">+234</span>
+                            <input type="tel" id="phone-input" placeholder="801 234 5678" 
+                                class="w-full pl-16 pr-4 py-3 bg-black/30 border border-gray-700 rounded-xl focus:border-pink-500 focus:outline-none transition-colors text-white placeholder-gray-600"
+                                maxlength="11"
+                                oninput="validatePhone(this)">
+                        </div>
+                        <p id="phone-error" class="text-red-400 text-sm mt-2 hidden">
+                            <i class="fas fa-exclamation-circle mr-1"></i>
+                            Please enter a valid Nigerian number (e.g., 8012345678)
+                        </p>
+                        <p class="text-gray-500 text-xs mt-2">
+                            <i class="fas fa-info-circle mr-1"></i>
+                            We'll send you a verification code
+                        </p>
+                    </div>
+
+                    <button onclick="goToStep(2)" id="btn-step1" disabled
+                        class="w-full py-3 bg-gray-700 text-gray-400 rounded-xl font-semibold transition-all duration-300 cursor-not-allowed">
+                        Continue
+                    </button>
+                </div>
+
+                <!-- Step 2: OTP -->
+                <div id="step2" class="space-y-6 hidden">
+                    <div class="text-center">
+                        <p class="text-gray-400 mb-4">Enter the 6-digit code sent to <span id="display-phone" class="text-white font-semibold"></span></p>
+                        <div class="flex justify-center space-x-2">
+                            <input type="text" maxlength="1" class="otp-input w-12 h-12 text-center bg-black/30 border border-gray-700 rounded-lg focus:border-pink-500 focus:outline-none text-xl font-bold" oninput="handleOtpInput(this, 0)">
+                            <input type="text" maxlength="1" class="otp-input w-12 h-12 text-center bg-black/30 border border-gray-700 rounded-lg focus:border-pink-500 focus:outline-none text-xl font-bold" oninput="handleOtpInput(this, 1)">
+                            <input type="text" maxlength="1" class="otp-input w-12 h-12 text-center bg-black/30 border border-gray-700 rounded-lg focus:border-pink-500 focus:outline-none text-xl font-bold" oninput="handleOtpInput(this, 2)">
+                            <input type="text" maxlength="1" class="otp-input w-12 h-12 text-center bg-black/30 border border-gray-700 rounded-lg focus:border-pink-500 focus:outline-none text-xl font-bold" oninput="handleOtpInput(this, 3)">
+                            <input type="text" maxlength="1" class="otp-input w-12 h-12 text-center bg-black/30 border border-gray-700 rounded-lg focus:border-pink-500 focus:outline-none text-xl font-bold" oninput="handleOtpInput(this, 4)">
+                            <input type="text" maxlength="1" class="otp-input w-12 h-12 text-center bg-black/30 border border-gray-700 rounded-lg focus:border-pink-500 focus:outline-none text-xl font-bold" oninput="handleOtpInput(this, 5)">
+                        </div>
+                        <p class="text-gray-500 text-sm mt-4">
+                            Didn't receive it? <button onclick="resendOtp()" class="text-pink-400 hover:underline">Resend</button>
+                        </p>
+                    </div>
+
+                    <button onclick="goToStep(3)" id="btn-step2" disabled
+                        class="w-full py-3 bg-gray-700 text-gray-400 rounded-xl font-semibold transition-all duration-300 cursor-not-allowed">
+                        Verify
+                    </button>
+                </div>
+
+                <!-- Step 3: Profile Details -->
+                <div id="step3" class="space-y-4 hidden">
+                    <div>
+                        <label class="block text-sm font-medium mb-2 text-gray-300">Full Name</label>
+                        <input type="text" id="fullname" placeholder="Enter your full name"
+                            class="w-full px-4 py-3 bg-black/30 border border-gray-700 rounded-xl focus:border-pink-500 focus:outline-none transition-colors text-white placeholder-gray-600"
+                            oninput="validateProfile()">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium mb-2 text-gray-300">Age</label>
+                            <input type="number" id="age" placeholder="18+" min="18" max="80"
+                                class="w-full px-4 py-3 bg-black/30 border border-gray-700 rounded-xl focus:border-pink-500 focus:outline-none transition-colors text-white placeholder-gray-600"
+                                oninput="validateProfile()">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2 text-gray-300">Gender</label>
+                            <select id="gender" class="w-full px-4 py-3 bg-black/30 border border-gray-700 rounded-xl focus:border-pink-500 focus:outline-none transition-colors text-white"
+                                onchange="validateProfile()">
+                                <option value="">Select</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium mb-2 text-gray-300">State</label>
+                        <select id="state" class="w-full px-4 py-3 bg-black/30 border border-gray-700 rounded-xl focus:border-pink-500 focus:outline-none transition-colors text-white"
+                            onchange="validateProfile()">
+                            <option value="">Select your state</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium mb-2 text-gray-300">Bio <span class="text-gray-500 text-xs">(Optional)</span></label>
+                        <textarea id="bio" rows="3" placeholder="Tell us about yourself..."
+                            class="w-full px-4 py-3 bg-black/30 border border-gray-700 rounded-xl focus:border-pink-500 focus:outline-none transition-colors text-white placeholder-gray-600 resize-none"></textarea>
+                    </div>
+
+                    <button onclick="completeSignup()" id="btn-step3" disabled
+                        class="w-full py-3 bg-gray-700 text-gray-400 rounded-xl font-semibold transition-all duration-300 cursor-not-allowed">
+                        Create Account
+                    </button>
+                </div>
+
+                <p class="text-center text-gray-500 text-sm mt-6">
+                    Already have an account? <button onclick="showPage('landing')" class="text-pink-400 hover:underline">Sign In</button>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Discovery Feed -->
+    <section id="discovery" class="min-h-screen pt-20 pb-24 px-4 hidden">
+        <div class="max-w-md mx-auto">
+            <!-- Filter Bar -->
+            <div class="flex space-x-2 mb-6 overflow-x-auto hide-scrollbar pb-2">
+                <button class="flex-shrink-0 px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full text-sm font-medium">
+                    All
+                </button>
+                <button class="flex-shrink-0 px-4 py-2 glass rounded-full text-sm font-medium text-gray-300 hover:bg-white/10 transition">
+                    Lagos
+                </button>
+                <button class="flex-shrink-0 px-4 py-2 glass rounded-full text-sm font-medium text-gray-300 hover:bg-white/10 transition">
+                    Abuja
+                </button>
+                <button class="flex-shrink-0 px-4 py-2 glass rounded-full text-sm font-medium text-gray-300 hover:bg-white/10 transition">
+                    PH
+                </button>
+                <button class="flex-shrink-0 px-4 py-2 glass rounded-full text-sm font-medium text-gray-300 hover:bg-white/10 transition">
+                    Online Now
+                </button>
+            </div>
+
+            <!-- Cards Container -->
+            <div class="relative h-[500px]" id="cards-container">
+                <!-- Cards injected by JS -->
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex justify-center items-center space-x-6 mt-6">
+                <button onclick="swipe('left')" class="w-14 h-14 rounded-full bg-gray-800 border border-gray-700 flex items-center justify-center hover:bg-gray-700 transition-transform hover:scale-110 shadow-lg">
+                    <i class="fas fa-times text-2xl text-red-400"></i>
+                </button>
+                <button onclick="swipe('superlike')" class="w-12 h-12 rounded-full bg-gray-800 border border-gray-700 flex items-center justify-center hover:bg-gray-700 transition-transform hover:scale-110 shadow-lg">
+                    <i class="fas fa-star text-xl text-blue-400"></i>
+                </button>
+                <button onclick="swipe('right')" class="w-14 h-14 rounded-full bg-gray-800 border border-gray-700 flex items-center justify-center hover:bg-gray-700 transition-transform hover:scale-110 shadow-lg">
+                    <i class="fas fa-heart text-2xl text-green-400"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Chat Interface -->
+    <section id="chat" class="min-h-screen pt-20 pb-24 px-4 hidden">
+        <div class="max-w-md mx-auto">
+            <h2 class="text-2xl font-bold mb-6">Messages</h2>
+
+            <!-- Matches Row -->
+            <div class="mb-6">
+                <h3 class="text-sm font-medium text-gray-400 mb-3">New Matches</h3>
+                <div class="flex space-x-4 overflow-x-auto hide-scrollbar pb-2" id="matches-row">
+                    <!-- Matches injected by JS -->
+                </div>
+            </div>
+
+            <!-- Chat List -->
+            <div class="space-y-2" id="chat-list">
+                <!-- Chat items injected by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Chat Window (Modal) -->
+    <div id="chat-window" class="fixed inset-0 z-50 hidden">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closeChat()"></div>
+        <div class="absolute bottom-0 left-0 right-0 md:relative md:max-w-md md:mx-auto md:mt-20 h-[85vh] md:h-[600px] bg-naija-charcoal rounded-t-3xl md:rounded-2xl flex flex-col overflow-hidden border border-gray-800">
+            <!-- Chat Header -->
+            <div class="glass-strong px-4 py-3 flex items-center justify-between border-b border-gray-800">
+                <div class="flex items-center space-x-3">
+                    <button onclick="closeChat()" class="md:hidden text-gray-400">
+                        <i class="fas fa-chevron-down text-xl"></i>
+                    </button>
+                    <div class="relative">
+                        <img id="chat-avatar" src="" alt="" class="w-10 h-10 rounded-full object-cover">
+                        <span class="absolute bottom-0 right-0 w-3 h-3 bg-green-400 rounded-full border-2 border-naija-charcoal"></span>
+                    </div>
+                    <div>
+                        <h3 id="chat-name" class="font-semibold"></h3>
+                        <p class="text-xs text-green-400">Online</p>
+                    </div>
+                </div>
+                <button class="text-gray-400 hover:text-white">
+                    <i class="fas fa-ellipsis-v"></i>
+                </button>
+            </div>
+
+            <!-- Messages Area -->
+            <div id="messages-area" class="flex-1 overflow-y-auto p-4 space-y-4">
+                <!-- Messages injected by JS -->
+            </div>
+
+            <!-- Input Area -->
+            <div class="glass-strong p-4 border-t border-gray-800">
+                <div class="flex items-center space-x-2">
+                    <button class="text-gray-400 hover:text-pink-400 transition">
+                        <i class="fas fa-image text-xl"></i>
+                    </button>
+                    <input type="text" id="message-input" placeholder="Type a message..." 
+                        class="flex-1 bg-black/30 border border-gray-700 rounded-full px-4 py-2 focus:border-pink-500 focus:outline-none text-white"
+                        onkeypress="handleMessageKeypress(event)">
+                    <button onclick="sendMessage()" class="w-10 h-10 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 flex items-center justify-center hover:scale-105 transition-transform">
+                        <i class="fas fa-paper-plane text-sm"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Match Notification -->
+    <div id="match-notification" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-black/90 backdrop-blur-md"></div>
+        <div class="relative bg-gradient-to-b from-purple-900/50 to-pink-900/50 rounded-3xl p-8 max-w-sm w-full text-center border border-pink-500/30 animate-match-pop">
+            <div class="absolute -top-10 left-1/2 -translate-x-1/2">
+                <i class="fas fa-heart text-6xl text-pink-500 heart-beat"></i>
+            </div>
+
+            <h2 class="text-3xl font-bold mb-2 mt-4">It's a Match!</h2>
+            <p class="text-gray-300 mb-6">You and <span id="match-name" class="text-white font-semibold"></span> liked each other</p>
+
+            <div class="flex justify-center space-x-4 mb-6">
+                <img id="match-user-photo" src="" alt="You" class="w-20 h-20 rounded-full border-4 border-purple-500 object-cover">
+                <img id="match-their-photo" src="" alt="Match" class="w-20 h-20 rounded-full border-4 border-pink-500 object-cover">
+            </div>
+
+            <div class="space-y-3">
+                <button onclick="startChatFromMatch()" class="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl font-semibold hover:opacity-90 transition">
+                    Send Message
+                </button>
+                <button onclick="closeMatchNotification()" class="w-full py-3 glass rounded-xl font-semibold hover:bg-white/10 transition">
+                    Keep Swiping
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Page -->
+    <section id="profile" class="min-h-screen pt-20 pb-24 px-4 hidden">
+        <div class="max-w-md mx-auto">
+            <div class="glass-strong rounded-2xl overflow-hidden mb-6">
+                <div class="h-32 bg-gradient-to-r from-purple-600 to-pink-600"></div>
+                <div class="px-6 pb-6">
+                    <div class="relative -mt-16 mb-4">
+                        <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200&h=200&fit=crop" 
+                            alt="Profile" 
+                            class="w-32 h-32 rounded-full border-4 border-naija-charcoal object-cover">
+                        <button class="absolute bottom-0 right-0 w-8 h-8 bg-pink-500 rounded-full flex items-center justify-center border-2 border-naija-charcoal">
+                            <i class="fas fa-camera text-xs"></i>
+                        </button>
+                    </div>
+
+                    <div class="flex items-center space-x-2 mb-1">
+                        <h2 class="text-2xl font-bold">Your Profile</h2>
+                        <i class="fas fa-check-circle text-blue-400" title="Verified"></i>
+                    </div>
+                    <p class="text-gray-400 mb-4">Lagos, Nigeria</p>
+
+                    <div class="flex space-x-4 mb-6">
+                        <div class="text-center">
+                            <div class="text-xl font-bold">24</div>
+                            <div class="text-xs text-gray-500">Matches</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-xl font-bold">156</div>
+                            <div class="text-xs text-gray-500">Likes</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-xl font-bold">12</div>
+                            <div class="text-xs text-gray-500">Chats</div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3">
+                        <button class="w-full py-3 glass rounded-xl flex items-center justify-between px-4 hover:bg-white/5 transition">
+                            <span class="flex items-center space-x-3">
+                                <i class="fas fa-edit text-purple-400"></i>
+                                <span>Edit Profile</span>
+                            </span>
+                            <i class="fas fa-chevron-right text-gray-500"></i>
+                        </button>
+                        <button class="w-full py-3 glass rounded-xl flex items-center justify-between px-4 hover:bg-white/5 transition">
+                            <span class="flex items-center space-x-3">
+                                <i class="fas fa-cog text-purple-400"></i>
+                                <span>Settings</span>
+                            </span>
+                            <i class="fas fa-chevron-right text-gray-500"></i>
+                        </button>
+                        <button class="w-full py-3 glass rounded-xl flex items-center justify-between px-4 hover:bg-white/5 transition">
+                            <span class="flex items-center space-x-3">
+                                <i class="fas fa-shield-alt text-purple-400"></i>
+                                <span>Privacy & Safety</span>
+                            </span>
+                            <i class="fas fa-chevron-right text-gray-500"></i>
+                        </button>
+                        <button onclick="logout()" class="w-full py-3 glass rounded-xl flex items-center justify-between px-4 hover:bg-red-500/10 transition text-red-400">
+                            <span class="flex items-center space-x-3">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span>Logout</span>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Nigerian States
+        const nigerianStates = [
+            "Abia", "Adamawa", "Akwa Ibom", "Anambra", "Bauchi", "Bayelsa", "Benue", "Borno",
+            "Cross River", "Delta", "Ebonyi", "Edo", "Ekiti", "Enugu", "Gombe", "Imo",
+            "Jigawa", "Kaduna", "Kano", "Katsina", "Kebbi", "Kogi", "Kwara", "Lagos",
+            "Nasarawa", "Niger", "Ogun", "Ondo", "Osun", "Oyo", "Plateau", "Rivers",
+            "Sokoto", "Taraba", "Yobe", "Zamfara", "FCT (Abuja)"
+        ];
+
+        // Sample Profiles
+        const profiles = [
+            { id: 1, name: "Chioma", age: 24, location: "Lagos", state: "Lagos", image: "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=400&h=600&fit=crop", bio: "Love music and good food 🎵🍜", online: true, verified: true },
+            { id: 2, name: "Emmanuel", age: 27, location: "Abuja", state: "FCT", image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=600&fit=crop", bio: "Tech bro | Football fan | Looking for something real", online: true, verified: true },
+            { id: 3, name: "Amaka", age: 22, location: "Port Harcourt", state: "Rivers", image: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400&h=600&fit=crop", bio: "Fashion designer ✨ | Jesus lover | Tea enthusiast", online: false, verified: true },
+            { id: 4, name: "Tunde", age: 29, location: "Ibadan", state: "Oyo", image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=600&fit=crop", bio: "Entrepreneur | Traveler | Let's explore together", online: true, verified: false },
+            { id: 5, name: "Ngozi", age: 25, location: "Lagos", state: "Lagos", image: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400&h=600&fit=crop", bio: "Medical doctor | Bookworm | Looking for my person", online: true, verified: true },
+        ];
+
+        let currentProfileIndex = 0;
+        let currentChatId = null;
+        let currentMatch = null;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            populateStates();
+            populateAvatars();
+            renderCards();
+            populateMatches();
+            populateChatList();
+        });
+
+        // Navigation
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('section').forEach(section => {
+                section.classList.add('hidden');
+            });
+
+            // Show target page
+            document.getElementById(pageId).classList.remove('hidden');
+
+            // Show/hide navbar
+            const navbar = document.getElementById('navbar');
+            if (pageId === 'landing' || pageId === 'signup') {
+                navbar.classList.add('hidden');
+            } else {
+                navbar.classList.remove('hidden');
+            }
+
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        // Populate States Dropdown
+        function populateStates() {
+            const select = document.getElementById('state');
+            nigerianStates.forEach(state => {
+                const option = document.createElement('option');
+                option.value = state;
+                option.textContent = state;
+                select.appendChild(option);
+            });
+        }
+
+        // Populate Avatar Scroll
+        function populateAvatars() {
+            const container = document.getElementById('avatar-scroll');
+            const avatars = [
+                "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop",
+                "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop",
+                "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop",
+                "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop",
+                "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop",
+                "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&h=100&fit=crop",
+                "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=100&h=100&fit=crop",
+                "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop"
+            ];
+
+            // Duplicate for infinite scroll effect
+            [...avatars, ...avatars].forEach(src => {
+                const img = document.createElement('img');
+                img.src = src;
+                img.className = "w-12 h-12 rounded-full border-2 border-pink-500/50 inline-block";
+                container.appendChild(img);
+            });
+        }
+
+        // Phone Validation
+        function validatePhone(input) {
+            const error = document.getElementById('phone-error');
+            const btn = document.getElementById('btn-step1');
+
+            // Remove non-digits
+            input.value = input.value.replace(/\D/g, '');
+
+            // Nigerian regex: must start with 7, 8, or 9, then 0 or 1, then 8 digits
+            const naijaRegex = /^[789][01]\d{8}$/;
+
+            if (input.value.length === 10 && naijaRegex.test(input.value)) {
+                error.classList.add('hidden');
+                btn.disabled = false;
+                btn.classList.remove('bg-gray-700', 'text-gray-400', 'cursor-not-allowed');
+                btn.classList.add('bg-gradient-to-r', 'from-purple-600', 'to-pink-600', 'text-white', 'hover:opacity-90');
+            } else {
+                if (input.value.length === 10) {
+                    error.classList.remove('hidden');
+                }
+                btn.disabled = true;
+                btn.classList.add('bg-gray-700', 'text-gray-400', 'cursor-not-allowed');
+                btn.classList.remove('bg-gradient-to-r', 'from-purple-600', 'to-pink-600', 'text-white', 'hover:opacity-90');
+            }
+        }
+
+        // Step Navigation
+        function goToStep(step) {
+            if (step === 2) {
+                const phone = document.getElementById('phone-input').value;
+                document.getElementById('display-phone').textContent = '+234' + phone;
+
+                document.getElementById('step1').classList.add('hidden');
+                document.getElementById('step2').classList.remove('hidden');
+                document.getElementById('step1-indicator').classList.remove('bg-gradient-to-r', 'from-purple-500', 'to-pink-500');
+                document.getElementById('step1-indicator').classList.add('bg-green-500');
+                document.getElementById('step1-indicator').innerHTML = '<i class="fas fa-check"></i>';
+                document.getElementById('step2-indicator').classList.remove('bg-gray-700');
+                document.getElementById('step2-indicator').classList.add('bg-gradient-to-r', 'from-purple-500', 'to-pink-500');
+                document.getElementById('progress-bar').style.width = '100%';
+
+                // Focus first OTP input
+                setTimeout(() => document.querySelector('.otp-input').focus(), 100);
+            } else if (step === 3) {
+                document.getElementById('step2').classList.add('hidden');
+                document.getElementById('step3').classList.remove('hidden');
+                document.getElementById('step2-indicator').classList.remove('bg-gradient-to-r', 'from-purple-500', 'to-pink-500');
+                document.getElementById('step2-indicator').classList.add('bg-green-500');
+                document.getElementById('step2-indicator').innerHTML = '<i class="fas fa-check"></i>';
+                document.getElementById('step3-indicator').classList.remove('bg-gray-700');
+                document.getElementById('step3-indicator').classList.add('bg-gradient-to-r', 'from-purple-500', 'to-pink-500');
+                document.getElementById('progress-bar-2').style.width = '100%';
+            }
+        }
+
+        // OTP Input Handling
+        function handleOtpInput(input, index) {
+            input.value = input.value.replace(/\D/g, '');
+
+            const inputs = document.querySelectorAll('.otp-input');
+
+            if (input.value && index < inputs.length - 1) {
+                inputs[index + 1].focus();
+            }
+
+            // Check if all filled
+            const allFilled = Array.from(inputs).every(inp => inp.value.length === 1);
+            const btn = document.getElementById('btn-step2');
+
+            if (allFilled) {
+                btn.disabled = false;
+                btn.classList.remove('bg-gray-700', 'text-gray-400', 'cursor-not-allowed');
+                btn.classList.add('bg-gradient-to-r', 'from-purple-600', 'to-pink-600', 'text-white', 'hover:opacity-90');
+            }
+        }
+
+        // Profile Validation
+        function validateProfile() {
+            const name = document.getElementById('fullname').value;
+            const age = document.getElementById('age').value;
+            const gender = document.getElementById('gender').value;
+            const state = document.getElementById('state').value;
+            const btn = document.getElementById('btn-step3');
+
+            if (name && age >= 18 && gender && state) {
+                btn.disabled = false;
+                btn.classList.remove('bg-gray-700', 'text-gray-400', 'cursor-not-allowed');
+                btn.classList.add('bg-gradient-to-r', 'from-purple-600', 'to-pink-600', 'text-white', 'hover:opacity-90');
+            } else {
+                btn.disabled = true;
+                btn.classList.add('bg-gray-700', 'text-gray-400', 'cursor-not-allowed');
+                btn.classList.remove('bg-gradient-to-r', 'from-purple-600', 'to-pink-600', 'text-white', 'hover:opacity-90');
+            }
+        }
+
+        function completeSignup() {
+            showPage('discovery');
+        }
+
+        // Render Cards
+        function renderCards() {
+            const container = document.getElementById('cards-container');
+            container.innerHTML = '';
+
+            profiles.forEach((profile, index) => {
+                const card = document.createElement('div');
+                card.className = `swipe-card absolute inset-0 rounded-2xl overflow-hidden card-shadow ${index === 0 ? 'z-10' : 'z-0'}`;
+                card.id = `card-${index}`;
+                card.style.transform = index === 0 ? 'scale(1)' : 'scale(0.95)';
+                card.style.opacity = index === 0 ? '1' : '0.5';
+
+                card.innerHTML = `
+                    <img src="${profile.image}" alt="${profile.name}" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
+
+                    <div class="absolute top-4 right-4 flex items-center space-x-1 glass px-3 py-1 rounded-full">
+                        <span class="w-2 h-2 ${profile.online ? 'bg-green-400' : 'bg-gray-400'} rounded-full"></span>
+                        <span class="text-xs">${profile.online ? 'Online' : 'Offline'}</span>
+                    </div>
+
+                    ${profile.verified ? `
+                    <div class="absolute top-4 left-4 glass px-3 py-1 rounded-full flex items-center space-x-1">
+                        <i class="fas fa-check-circle text-blue-400 text-xs"></i>
+                        <span class="text-xs font-medium">Trusted Naija Profile</span>
+                    </div>
+                    ` : ''}
+
+                    <div class="absolute bottom-0 left-0 right-0 p-6">
+                        <div class="flex items-end justify-between mb-2">
+                            <div>
+                                <h3 class="text-3xl font-bold">${profile.name}, ${profile.age}</h3>
+                                <p class="text-gray-300 flex items-center">
+                                    <i class="fas fa-map-marker-alt mr-2 text-pink-400"></i>
+                                    ${profile.location}, ${profile.state}
+                                </p>
+                            </div>
+                        </div>
+                        <p class="text-gray-300 text-sm mb-4">${profile.bio}</p>
+
+                        <div class="flex space-x-2">
+                            <span class="glass px-3 py-1 rounded-full text-xs">Music</span>
+                            <span class="glass px-3 py-1 rounded-full text-xs">Travel</span>
+                            <span class="glass px-3 py-1 rounded-full text-xs">Food</span>
+                        </div>
+                    </div>
+                `;
+
+                // Add touch/drag support
+                let startX = 0;
+                let currentX = 0;
+                let isDragging = false;
+
+                card.addEventListener('touchstart', handleStart);
+                card.addEventListener('touchmove', handleMove);
+                card.addEventListener('touchend', handleEnd);
+                card.addEventListener('mousedown', handleStart);
+                card.addEventListener('mousemove', handleMove);
+                card.addEventListener('mouseup', handleEnd);
+                card.addEventListener('mouseleave', handleEnd);
+
+                function handleStart(e) {
+                    if (index !== currentProfileIndex) return;
+                    isDragging = true;
+                    startX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+                }
+
+                function handleMove(e) {
+                    if (!isDragging || index !== currentProfileIndex) return;
+                    e.preventDefault();
+                    currentX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+                    const diff = currentX - startX;
+                    const rotation = diff * 0.05;
+                    card.style.transform = `translateX(${diff}px) rotate(${rotation}deg)`;
+                }
+
+                function handleEnd(e) {
+                    if (!isDragging || index !== currentProfileIndex) return;
+                    isDragging = false;
+                    const diff = currentX - startX;
+
+                    if (diff > 100) {
+                        swipe('right');
+                    } else if (diff < -100) {
+                        swipe('left');
+                    } else {
+                        card.style.transform = 'scale(1) rotate(0deg)';
+                        card.style.transition = 'transform 0.3s ease';
+                        setTimeout(() => {
+                            card.style.transition = '';
+                        }, 300);
+                    }
+                }
+
+                container.appendChild(card);
+            });
+        }
+
+        // Swipe Logic
+        function swipe(direction) {
+            const currentCard = document.getElementById(`card-${currentProfileIndex}`);
+            if (!currentCard) return;
+
+            if (direction === 'right') {
+                currentCard.classList.add('swiping-right');
+
+                // 30% chance of match for demo
+                if (Math.random() > 0.7) {
+                    setTimeout(() => showMatchNotification(profiles[currentProfileIndex]), 300);
+                }
+            } else if (direction === 'left') {
+                currentCard.classList.add('swiping-left');
+            } else if (direction === 'superlike') {
+                currentCard.style.transform = 'translateY(-100%) scale(1.1)';
+                currentCard.style.opacity = '0';
+            }
+
+            setTimeout(() => {
+                currentProfileIndex++;
+                if (currentProfileIndex >= profiles.length) {
+                    currentProfileIndex = 0;
+                    renderCards();
+                } else {
+                    renderCards();
+                }
+            }, 300);
+        }
+
+        // Match Notification
+        function showMatchNotification(profile) {
+            currentMatch = profile;
+            document.getElementById('match-name').textContent = profile.name;
+            document.getElementById('match-their-photo').src = profile.image;
+            document.getElementById('match-user-photo').src = "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200&h=200&fit=crop";
+            document.getElementById('match-notification').classList.remove('hidden');
+        }
+
+        function closeMatchNotification() {
+            document.getElementById('match-notification').classList.add('hidden');
+        }
+
+        function startChatFromMatch() {
+            closeMatchNotification();
+            openChat(currentMatch.id);
+        }
+
+        // Chat Functions
+        function populateMatches() {
+            const container = document.getElementById('matches-row');
+            const matches = profiles.slice(0, 3);
+
+            matches.forEach(profile => {
+                const div = document.createElement('div');
+                div.className = 'flex-shrink-0 text-center cursor-pointer';
+                div.onclick = () => openChat(profile.id);
+                div.innerHTML = `
+                    <div class="relative mb-1">
+                        <img src="${profile.image}" alt="${profile.name}" class="w-16 h-16 rounded-full border-2 border-pink-500 object-cover">
+                        <span class="absolute bottom-0 right-0 w-3 h-3 bg-green-400 rounded-full border-2 border-naija-charcoal"></span>
+                    </div>
+                    <p class="text-xs">${profile.name}</p>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function populateChatList() {
+            const container = document.getElementById('chat-list');
+            const chats = [
+                { profile: profiles[0], lastMessage: "Hey! How are you?", time: "2m", unread: 2 },
+                { profile: profiles[1], lastMessage: "What are you up to this weekend?", time: "1h", unread: 0 },
+                { profile: profiles[2], lastMessage: "Thanks! 😊", time: "3h", unread: 0 },
+            ];
+
+            chats.forEach(chat => {
+                const div = document.createElement('div');
+                div.className = 'glass p-4 rounded-xl flex items-center space-x-3 cursor-pointer hover:bg-white/5 transition';
+                div.onclick = () => openChat(chat.profile.id);
+                div.innerHTML = `
+                    <div class="relative">
+                        <img src="${chat.profile.image}" alt="${chat.profile.name}" class="w-12 h-12 rounded-full object-cover">
+                        ${chat.profile.online ? '<span class="absolute bottom-0 right-0 w-3 h-3 bg-green-400 rounded-full border-2 border-naija-charcoal"></span>' : ''}
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <div class="flex justify-between items-start">
+                            <h4 class="font-semibold truncate">${chat.profile.name}</h4>
+                            <span class="text-xs text-gray-500">${chat.time}</span>
+                        </div>
+                        <p class="text-sm text-gray-400 truncate">${chat.lastMessage}</p>
+                    </div>
+                    ${chat.unread > 0 ? `<span class="w-5 h-5 bg-pink-500 rounded-full flex items-center justify-center text-xs font-bold">${chat.unread}</span>` : ''}
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function openChat(profileId) {
+            const profile = profiles.find(p => p.id === profileId);
+            if (!profile) return;
+
+            currentChatId = profileId;
+            document.getElementById('chat-name').textContent = profile.name;
+            document.getElementById('chat-avatar').src = profile.image;
+
+            // Load mock messages
+            const messagesArea = document.getElementById('messages-area');
+            messagesArea.innerHTML = `
+                <div class="text-center text-gray-500 text-xs my-4">Today</div>
+                <div class="flex justify-start">
+                    <div class="max-w-[70%] bg-gray-800 rounded-2xl rounded-tl-none px-4 py-2">
+                        <p>Hey! Nice to match with you 😊</p>
+                        <span class="text-xs text-gray-500 mt-1 block">10:30 AM</span>
+                    </div>
+                </div>
+                <div class="flex justify-end">
+                    <div class="max-w-[70%] bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl rounded-tr-none px-4 py-2">
+                        <p>Hi! Thanks, you too! How's your day going?</p>
+                        <span class="text-xs text-white/70 mt-1 block flex items-center justify-end">
+                            10:32 AM <i class="fas fa-check-double ml-1"></i>
+                        </span>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('chat-window').classList.remove('hidden');
+            messagesArea.scrollTop = messagesArea.scrollHeight;
+        }
+
+        function closeChat() {
+            document.getElementById('chat-window').classList.add('hidden');
+            currentChatId = null;
+        }
+
+        function handleMessageKeypress(e) {
+            if (e.key === 'Enter') sendMessage();
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('message-input');
+            const text = input.value.trim();
+            if (!text) return;
+
+            const messagesArea = document.getElementById('messages-area');
+            const time = new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+
+            // Add user message
+            const userMsg = document.createElement('div');
+            userMsg.className = 'flex justify-end animate-slide-up';
+            userMsg.innerHTML = `
+                <div class="max-w-[70%] bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl rounded-tr-none px-4 py-2">
+                    <p>${text}</p>
+                    <span class="text-xs text-white/70 mt-1 block flex items-center justify-end">
+                        ${time} <i class="fas fa-check ml-1"></i>
+                    </span>
+                </div>
+            `;
+            messagesArea.appendChild(userMsg);
+            input.value = '';
+            messagesArea.scrollTop = messagesArea.scrollHeight;
+
+            // Simulate reply
+            setTimeout(() => {
+                const replyMsg = document.createElement('div');
+                replyMsg.className = 'flex justify-start animate-slide-up';
+                replyMsg.innerHTML = `
+                    <div class="max-w-[70%] bg-gray-800 rounded-2xl rounded-tl-none px-4 py-2">
+                        <div class="flex space-x-1">
+                            <div class="w-2 h-2 bg-gray-400 rounded-full typing-dot"></div>
+                            <div class="w-2 h-2 bg-gray-400 rounded-full typing-dot"></div>
+                            <div class="w-2 h-2 bg-gray-400 rounded-full typing-dot"></div>
+                        </div>
+                    </div>
+                `;
+                messagesArea.appendChild(replyMsg);
+                messagesArea.scrollTop = messagesArea.scrollHeight;
+
+                setTimeout(() => {
+                    replyMsg.innerHTML = `
+                        <div class="max-w-[70%] bg-gray-800 rounded-2xl rounded-tl-none px-4 py-2">
+                            <p>That's interesting! Tell me more 😊</p>
+                            <span class="text-xs text-gray-500 mt-1 block">${new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}</span>
+                        </div>
+                    `;
+                }, 1500);
+            }, 1000);
+        }
+
+        function logout() {
+            currentProfileIndex = 0;
+            showPage('landing');
+        }
+
+        function resendOtp() {
+            alert('New OTP sent!');
+        }
+    </script>
+</body>
+</html>
