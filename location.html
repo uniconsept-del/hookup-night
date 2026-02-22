@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Live Location Tracker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: white;
+            overflow: hidden;
+        }
+        
+        .header {
+            padding: 20px;
+            text-align: center;
+            background: rgba(0,0,0,0.2);
+            backdrop-filter: blur(10px);
+        }
+        
+        h1 {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        
+        .status {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #ff4444;
+            animation: pulse 2s infinite;
+        }
+        
+        .status-dot.active {
+            background: #00ff88;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .map-container {
+            flex: 1;
+            position: relative;
+            background: #1a1a2e;
+            overflow: hidden;
+        }
+        
+        #map {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .info-panel {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+            transform: translateY(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .coords {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .coord-box {
+            background: rgba(255,255,255,0.1);
+            padding: 12px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        
+        .coord-label {
+            font-size: 0.75rem;
+            opacity: 0.7;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+        
+        .coord-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .details {
+            display: flex;
+            justify-content: space-around;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .detail-item {
+            text-align: center;
+        }
+        
+        .detail-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #00ff88;
+        }
+        
+        .detail-label {
+            font-size: 0.75rem;
+            opacity: 0.7;
+            margin-top: 2px;
+        }
+        
+        .controls {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(10px);
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .btn:hover {
+            transform: scale(1.1);
+            background: rgba(255,255,255,0.2);
+        }
+        
+        .btn.active {
+            background: #00ff88;
+            color: #000;
+        }
+        
+        .start-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 40px;
+            text-align: center;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        
+        .start-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .logo {
+            width: 120px;
+            height: 120px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            margin-bottom: 30px;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .start-btn {
+            background: white;
+            color: #667eea;
+            border: none;
+            padding: 18px 40px;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        .start-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+        }
+        
+        .accuracy-badge {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(10px);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        .accuracy-good { color: #00ff88; }
+        .accuracy-moderate { color: #ffaa00; }
+        .accuracy-poor { color: #ff4444; }
+        
+        @media (max-width: 480px) {
+            .coords {
+                grid-template-columns: 1fr;
+            }
+            .details {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="start-screen" id="startScreen">
+        <div class="logo">📍</div>
+        <h1 style="font-size: 2rem; margin-bottom: 10px;">Live Location</h1>
+        <p style="opacity: 0.9; font-size: 1.1rem;">Real-time GPS tracking</p>
+        <button class="start-btn" onclick="startTracking()">Start Tracking</button>
+        <p style="margin-top: 20px; font-size: 0.9rem; opacity: 0.7;">
+            Requires location permission
+        </p>
+    </div>
+
+    <div class="header">
+        <h1>📍 Live Location</h1>
+        <div class="status">
+            <span class="status-dot" id="statusDot"></span>
+            <span id="statusText">Waiting for GPS...</span>
+        </div>
+    </div>
+
+    <div class="map-container">
+        <iframe id="map" src="" allowfullscreen></iframe>
+        
+        <div class="accuracy-badge" id="accuracyBadge">
+            Accuracy: --
+        </div>
+        
+        <div class="controls">
+            <button class="btn" onclick="recenterMap()" title="Recenter">🎯</button>
+            <button class="btn" onclick="toggleMapType()" title="Toggle View">🗺️</button>
+        </div>
+        
+        <div class="info-panel">
+            <div class="coords">
+                <div class="coord-box">
+                    <div class="coord-label">Latitude</div>
+                    <div class="coord-value" id="lat">--.------</div>
+                </div>
+                <div class="coord-box">
+                    <div class="coord-label">Longitude</div>
+                    <div class="coord-value" id="lng">--.------</div>
+                </div>
+            </div>
+            <div class="details">
+                <div class="detail-item">
+                    <div class="detail-value" id="speed">--</div>
+                    <div class="detail-label">km/h</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-value" id="altitude">--</div>
+                    <div class="detail-label">meters</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-value" id="heading">--</div>
+                    <div class="detail-label">heading°</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let watchId = null;
+        let currentLat = null;
+        let currentLng = null;
+        let mapType = 'roadmap';
+        
+        function startTracking() {
+            document.getElementById('startScreen').classList.add('hidden');
+            
+            if (!navigator.geolocation) {
+                alert('Geolocation is not supported by your browser');
+                return;
+            }
+            
+            const options = {
+                enableHighAccuracy: true,
+                timeout: 10000,
+                maximumAge: 0
+            };
+            
+            watchId = navigator.geolocation.watchPosition(
+                updatePosition,
+                handleError,
+                options
+            );
+        }
+        
+        function updatePosition(position) {
+            const { latitude, longitude, accuracy, altitude, speed, heading } = position.coords;
+            
+            currentLat = latitude;
+            currentLng = longitude;
+            
+            // Update coordinates display
+            document.getElementById('lat').textContent = latitude.toFixed(6);
+            document.getElementById('lng').textContent = longitude.toFixed(6);
+            
+            // Update speed (convert m/s to km/h)
+            const speedKmh = speed ? (speed * 3.6).toFixed(1) : '0.0';
+            document.getElementById('speed').textContent = speedKmh;
+            
+            // Update altitude
+            const alt = altitude ? Math.round(altitude) : '--';
+            document.getElementById('altitude').textContent = alt;
+            
+            // Update heading
+            const head = heading ? Math.round(heading) : '--';
+            document.getElementById('heading').textContent = head;
+            
+            // Update accuracy badge
+            const acc = Math.round(accuracy);
+            const badge = document.getElementById('accuracyBadge');
+            badge.textContent = `±${acc}m accuracy`;
+            badge.className = 'accuracy-badge ' + 
+                (acc < 10 ? 'accuracy-good' : acc < 50 ? 'accuracy-moderate' : 'accuracy-poor');
+            
+            // Update status
+            document.getElementById('statusDot').classList.add('active');
+            document.getElementById('statusText').textContent = 'GPS Active • Live';
+            
+            // Update map
+            updateMap(latitude, longitude);
+        }
+        
+        function updateMap(lat, lng) {
+            // Using OpenStreetMap via Google Maps Embed-like approach
+            // Alternative: Use Google Maps if you have an API key, or Leaflet with OpenStreetMap
+            const zoom = 18;
+            const mapUrl = `https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d1000!2d${lng}!3d${lat}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1sen!2sus!4v1`;
+            
+            // Using OpenStreetMap for free, no-API-key solution
+            const osmUrl = `https://www.openstreetmap.org/export/embed.html?bbox=${lng-0.001}%2C${lat-0.001}%2C${lng+0.001}%2C${lat+0.001}&layer=mapnik&marker=${lat}%2C${lng}`;
+            
+            document.getElementById('map').src = osmUrl;
+        }
+        
+        function recenterMap() {
+            if (currentLat && currentLng) {
+                updateMap(currentLat, currentLng);
+            }
+        }
+        
+        function toggleMapType() {
+            // Toggle between roadmap and satellite (if using Google Maps with API key)
+            // For now, just recenter
+            recenterMap();
+        }
+        
+        function handleError(error) {
+            let message = 'Error getting location';
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    message = "Location permission denied";
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    message = "Location information unavailable";
+                    break;
+                case error.TIMEOUT:
+                    message = "Location request timed out";
+                    break;
+            }
+            document.getElementById('statusText').textContent = message;
+            document.getElementById('statusDot').style.background = '#ff4444';
+        }
+        
+        // Prevent zoom on double tap for mobile
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function (event) {
+            const now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+        
+        // Keep screen awake if possible
+        if ('wakeLock' in navigator) {
+            navigator.wakeLock.request('screen').catch(err => {
+                console.log('Wake lock not granted:', err);
+            });
+        }
+    </script>
+</body>
+</html>
